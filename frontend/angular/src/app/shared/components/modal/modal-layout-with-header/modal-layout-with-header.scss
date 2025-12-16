@@ -1,0 +1,35 @@
+@use 'abstracts/variables' as *;
+@use 'colors/color-matrix' as *;
+@use 'abstracts/mixins' as *;
+
+.modal {
+  @include modal-base-layout;
+
+  & {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    margin-top: 70px;
+  }
+
+  &__header {
+    position: relative;
+    padding-block: 36px 16px;
+    text-align: center;
+    background: url($modal-header-bg);
+    border-radius: 16px 16px 0px 0px;
+    flex-shrink: 0;
+  }
+
+  &__picture {
+    position: absolute;
+    top: 0;
+    width: 314px;
+    height: 200px;
+    transform: translate(-50%, -80%);
+  }
+
+  &__title {
+    color: $modal-header-title;
+  }
+}

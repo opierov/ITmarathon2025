@@ -1,0 +1,61 @@
+<div class="room">
+  <section class="room__details">
+    <app-room-info
+      [exchangeDateString]="roomData().giftExchangeDate"
+      [budget]="roomData().giftMaximumBudget"
+      [title]="roomData().name"
+      [description]="roomData().description"
+      [isAdmin]="isAdmin()"
+      [invitationNote]="roomData().invitationNote"
+      [invitationLink]="invitationLink()"
+      [isDrawn]="isRoomDrawn()"
+      [userCode]="userCode()"
+      (buttonAction)="openInvitationModal()"
+    />
+  </section>
+
+  <aside class="room__participant-info">
+    <app-personal-info
+      [firstName]="firstName()"
+      [roomName]="roomName()"
+      [link]="userLink()"
+      (buttonAction)="onViewInformation()"
+    />
+  </aside>
+
+  <section class="room__participant-list">
+    <app-participant-list
+      [participants]="users()"
+      [isAdmin]="isAdmin()"
+      [userCode]="userCode()"
+      [maxParticipants]="20"
+    />
+  </section>
+
+  <aside class="room__widgets">
+    @if (isAdmin() && !roomData().closedOn) {
+      <app-randomize-card
+        [isCardDisabled]="isRandomizeCardDisabled()"
+        (buttonAction)="onDrawNames()"
+      />
+    }
+
+    @if (roomData().closedOn) {
+      <app-giftee-info
+        [gifteeName]="gifteeName()"
+        (buttonAction)="onReadDetails()"
+      />
+    }
+
+    <app-my-wishlist
+      [currentUser]="currentUser()"
+      (buttonAction)="onViewWishlist()"
+    />
+  </aside>
+</div>
+
+<div
+  class="background-animation"
+  [class.active]="isBackgroundAnimationActive()"
+  #lottieContainer
+></div>

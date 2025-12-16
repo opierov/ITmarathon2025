@@ -1,0 +1,67 @@
+@use "../../../assets/styles/colors";
+@use "../../../assets/styles/variables";
+@use "../../../assets/styles/extends";
+
+.toaster {
+  position: absolute;
+  display: flex;
+  align-items: flex-start;
+  text-align: left;
+  column-gap: 8px;
+  bottom: 38px;
+  right: -8px;
+  width: max-content;
+  height: fit-content;
+  border-radius: 8px;
+  background-color: colors.$g-50;
+  box-shadow: variables.$shadow-message;
+  white-space: pre-line;
+  z-index: 102;
+
+  &__text {
+    color: colors.$g-800;
+  }
+
+  &__icon {
+    padding-top: 2px;
+
+    &--info {
+      fill: colors.$green-500;
+    }
+  }
+
+  &--global {
+    position: fixed;
+    top: 116px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 103;
+  }
+
+  &--small {
+    padding: 10px 12px;
+
+    & .toaster__text {
+      @extend %label;
+    }
+
+    & .toaster__icon {
+      width: 16px;
+      height: 16px;
+    }
+  }
+
+  &--large {
+    padding: 18px 24px;
+    column-gap: 12px;
+
+    & .toaster__text {
+      @extend %body-md;
+    }
+
+    & .toaster__icon {
+      width: 24px;
+      height: 24px;
+    }
+  }
+}

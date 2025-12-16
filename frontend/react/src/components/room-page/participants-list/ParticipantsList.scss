@@ -1,0 +1,64 @@
+@use "@assets/styles/_extends";
+@use "@assets/styles/_colors";
+@use "@assets/styles/variables";
+
+.participant-list {
+  height: fit-content;
+  width: 792px;
+  padding: 24px;
+  background:
+    url("@assets/images/backgrounds/participants-list-background.svg") top 16px
+      right 30px no-repeat,
+    colors.$g-50;
+  border-radius: 16px;
+  border: 1px solid colors.$green-200;
+  box-shadow: variables.$shadow;
+
+  &--shift-bg-image {
+    background-position-x: calc(100% - 72px);
+  }
+
+  &__content {
+    @extend %scroll;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    max-height: 962px;
+    overflow-y: auto;
+    scroll-behavior: smooth;
+
+    &--extra-padding {
+      padding-right: 8px;
+    }
+  }
+
+  &-header {
+    display: flex;
+    height: 38px;
+    align-items: end;
+
+    &__title {
+      padding-right: 8px;
+      color: colors.$g-900;
+    }
+  }
+
+  &-counter {
+    @extend %body-sm;
+
+    &__current {
+      color: colors.$g-500;
+    }
+
+    &__max {
+      color: colors.$green-700;
+      font-weight: 700;
+    }
+  }
+
+  &__cards {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+}

@@ -1,0 +1,16 @@
+@use 'abstracts/mixins' as *;
+@use 'colors/color-matrix' as *;
+
+:host {
+  display: block;
+  position: relative;
+}
+
+.input-sidebar {
+  @include input-sidebar;
+  right: 0;
+  transform: translate(-1px, -1px);
+  width: 53px;
+  border-radius: 0 6px 6px 0;
+  border-left: 1px solid $input-sidebar-border-color;
+}

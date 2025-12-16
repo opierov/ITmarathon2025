@@ -1,0 +1,47 @@
+@use "../../../assets/styles/extends";
+@use "../../../assets/styles/colors";
+
+.room-link {
+  &__title {
+    @extend %title-lg;
+    margin-bottom: 20px;
+    color: colors.$g-950;
+
+    .room-link:has(.room-link__description) & {
+      margin-bottom: 8px;
+    }
+
+    &--white {
+      color: colors.$g-100;
+    }
+  }
+
+  &__description {
+    @extend %body-sm;
+    margin-bottom: 20px;
+    color: colors.$g-800;
+
+    &--white {
+      color: colors.$g-100;
+    }
+
+    &--small {
+      @extend %label;
+      margin-bottom: 8px;
+    }
+  }
+
+  &__link-container {
+    display: flex;
+    align-items: center;
+    column-gap: 8px;
+  }
+
+  &__caption {
+    color: colors.$red-warning;
+
+    &--white {
+      color: colors.$g-100;
+    }
+  }
+}

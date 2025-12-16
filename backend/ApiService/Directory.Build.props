@@ -1,0 +1,12 @@
+<Project>
+  <PropertyGroup>
+    <Company>EPAM</Company>
+    <Copyright>Copyright © EPAM 2025</Copyright>
+    <Product>IT Marathon 2025 (Secret Nick)</Product>
+    <Description>EPAM IT Marathon 2025 (Secret Nick) WEB API.</Description>
+    <VersionPrefix Condition="'$(VersionPrefix)' == ''">1.0.0</VersionPrefix>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <RootNamespace>Epam.ItMarathon.ApiService.$(MSBuildProjectName.Replace(" ", "_"))</RootNamespace>
+    <AssemblyName>Epam.ItMarathon.ApiService.$(MSBuildProjectName.Replace(" ", "_"))</AssemblyName>
+  </PropertyGroup>
+</Project>

@@ -1,0 +1,56 @@
+<form>
+  <app-form-layout
+    [title]="formTitle"
+    [subtitle]="formSubtitle"
+    [formPictureName]="formPictureName"
+    [isFormValid]="form().valid"
+  >
+    <fieldset>
+      <app-input
+        appCharCounter
+        [positionY]="inputCharCounterPositionY"
+        class="form__input-control"
+        [label]="roomName"
+        [control]="roomNameControl"
+        [placeholder]="roomNamePlaceholder"
+        [isRequiredField]="true"
+        [maxLength]="inputMaxLength"
+      />
+
+      <app-textarea
+        appCharCounter
+        class="form__input-control"
+        [label]="roomDescription"
+        [control]="roomDescriptionControl"
+        [placeholder]="roomDescriptionPlaceholder"
+        [isRequiredField]="true"
+        [maxLength]="textareaMaxLength"
+      />
+
+      <fieldset class="form__input-group">
+        <app-date-picker
+          class="form__input-control"
+          [label]="exchangeDate"
+          [control]="exchangeDateControl"
+          [placeholder]="exchangeDatePlaceholder"
+          [isRequiredField]="true"
+        />
+
+        <fieldset class="form__input-control">
+          <app-budget-input
+            [label]="giftBudget"
+            [control]="giftBudgetControl"
+            [placeholder]="giftBudgetPlaceholder"
+            [isRequired]="true"
+          />
+
+          <app-field-hint
+            class="form__field-hint"
+            [control]="giftBudgetControl"
+            [captionMessage]="giftBudgetCaptionMessage"
+          />
+        </fieldset>
+      </fieldset>
+    </fieldset>
+  </app-form-layout>
+</form>

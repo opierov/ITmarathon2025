@@ -1,0 +1,53 @@
+@use 'colors/color-matrix' as *;
+
+:host {
+  position: relative;
+}
+
+.invitation-note {
+  border: 1px $invitation-note-border solid;
+  border-radius: 8px;
+  background-color: $invitation-note-bg;
+  position: relative;
+
+  &--editing {
+    border-color: $invitation-note-border-editing;
+  }
+
+  &__warning {
+    color: $invitation-note-warning;
+    font-size: 12px;
+    position: absolute;
+    bottom: -20px;
+  }
+}
+
+.invitation-note__actions {
+  position: absolute;
+  right: 8px;
+  top: 8px;
+  z-index: 1;
+}
+
+.invitation-note__card {
+  padding: 24px;
+}
+
+.invitation-note__textarea {
+  width: 100%;
+  resize: none;
+  overflow: hidden;
+  padding: 0;
+  margin: 0;
+  border: 0;
+  outline: 0;
+  background: transparent;
+
+  &[readonly] {
+    cursor: default;
+  }
+}
+
+.invitation-note__link {
+  color: $invitation-note-link-color;
+}

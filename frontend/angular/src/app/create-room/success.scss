@@ -1,0 +1,19 @@
+@use 'abstracts/mixins' as *;
+
+:host {
+  @include page-layout;
+}
+
+.success__block {
+  padding-top: 35px;
+
+  &-title {
+    font-size: 24px;
+    font-weight: 600;
+    padding-bottom: 15px;
+  }
+}
+
+.success__hint {
+  padding-bottom: 20px;
+}

@@ -1,0 +1,33 @@
+@use 'abstracts/mixins' as *;
+
+:host {
+  @include page-layout(40px 0 80px);
+}
+
+.room {
+  width: 1200px;
+  display: grid;
+  grid-template-columns: 792px 384px;
+  gap: 24px;
+
+  &__widgets {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+}
+
+.background-animation {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: -1;
+
+  &.active {
+    z-index: 400;
+  }
+}

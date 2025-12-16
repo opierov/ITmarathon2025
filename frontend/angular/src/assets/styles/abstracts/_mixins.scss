@@ -1,0 +1,355 @@
+@use 'base/typography' as typography;
+@use 'colors/color-matrix' as *;
+@use 'abstracts/variables' as *;
+
+@mixin button-typography($size: m) {
+  @if $size == s {
+    font-size: 14px;
+    font-weight: 600;
+    line-height: typography.$line-height-xl;
+  } @else if $size == m {
+    font-size: 16px;
+    font-weight: 700;
+    line-height: typography.$line-height-xl;
+  } @else if $size == l {
+    font-size: 22px;
+    font-weight: 700;
+    line-height: typography.$line-height-lg;
+  }
+}
+
+@mixin btn-disabled($bg, $color, $border) {
+  background: $bg;
+  color: $color;
+  border-color: $border;
+  cursor: not-allowed;
+}
+
+@function cm($variant, $state, $prop) {
+  @return map-get(map-get(map-get($btn-color-matrix, $variant), $state), $prop);
+}
+
+@mixin button-variant($variant) {
+  background: cm($variant, default, bg);
+  color: cm($variant, default, text);
+  border-color: cm($variant, default, border);
+  $base-style: cm($variant, default, border-style);
+  @if $base-style {
+    border-style: $base-style;
+  }
+
+  &:hover:not(:disabled) {
+    background: cm($variant, hover, bg);
+    color: cm($variant, hover, text);
+    border-color: cm($variant, hover, border);
+  }
+
+  &:active:not(:disabled) {
+    background: cm($variant, active, bg);
+    color: cm($variant, active, text);
+    border-color: cm($variant, active, border);
+  }
+
+  &:focus-visible {
+    $f-border: cm($variant, focus, border);
+    $f-style: cm($variant, focus, border-style);
+    @if $f-border {
+      border-color: $f-border;
+    }
+    @if $f-style {
+      border-style: $f-style;
+    }
+  }
+
+  &:disabled {
+    background: cm($variant, disabled, bg);
+    color: cm($variant, disabled, text);
+    border-color: cm($variant, disabled, border);
+    cursor: not-allowed;
+    opacity: 0.6;
+  }
+}
+
+@mixin visually-hidden() {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  border: 0;
+  white-space: nowrap;
+}
+
+@mixin input-base($height, $is-textarea: false) {
+  width: 100%;
+  @if $is-textarea {
+    min-height: $height;
+    padding: 7px 12px 17px 12px;
+  } @else {
+    height: $height;
+    padding: 12px 60px 12px 12px;
+  }
+  border: $input-border-width solid $input-color-border;
+  border-radius: $input-radius;
+  background: $input-bg-color;
+  color: $input-color-text;
+  outline: none;
+
+  &::placeholder {
+    color: $input-color-placeholder;
+  }
+}
+
+@mixin button-small {
+  color: cm(small, default, text);
+  border-color: cm(small, default, border);
+
+  &:hover:not(:disabled) {
+    color: cm(small, hover, text);
+    border-color: cm(small, hover, border);
+  }
+
+  &:active:not(:disabled) {
+    color: cm(small, active, text);
+    border-color: cm(small, active, border);
+  }
+
+  &:focus-visible {
+    color: cm(small, active, text);
+  }
+}
+
+@mixin input-states(
+  $border-hover: $input-color-border-hover,
+  $border-focus: $input-color-border-focus,
+  $border-type: $input-color-border-type,
+  $border-filled: $input-color-border-filled,
+  $disabled-bg: $input-color-disabled-bg,
+  $disabled-text: $input-color-disabled-text,
+  $disabled-border: $input-color-disabled-border,
+  $error-border: $input-color-error
+) {
+  &:hover:not(:focus):not(:disabled) {
+    border-color: $border-hover;
+  }
+
+  &:focus {
+    border-color: $border-focus;
+  }
+
+  &.ng-dirty:not(:disabled) {
+    border-color: $border-type;
+  }
+
+  &.filled:not(:focus):not(:disabled) {
+    border-color: $border-filled;
+  }
+
+  &:disabled {
+    background: $disabled-bg;
+    color: $disabled-text;
+    border-color: $disabled-border;
+    cursor: not-allowed;
+  }
+
+  &.ng-invalid.ng-touched {
+    border-color: $error-border !important;
+  }
+}
+
+@mixin input-sidebar {
+  position: absolute;
+  bottom: 0;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 400;
+
+  background-color: $input-sidebar-bg;
+
+  &--disabled {
+    background-color: $input-color-disabled-bg;
+    color: $input-color-disabled-text;
+    cursor: not-allowed;
+  }
+}
+
+@mixin general-background {
+  width: 100%;
+  background:
+    url('/assets/images/snowflake-dark.svg') right 0px top 0px no-repeat,
+    url('/assets/images/snowflake-light.svg') left 0px bottom 0px no-repeat,
+    $page-bg no-repeat;
+}
+
+@mixin page-layout($padding: 64px 0 80px 0, $gap: 0) {
+  @include general-background;
+  @include flex-centered-column;
+
+  gap: $gap;
+  padding: $padding;
+}
+
+@mixin base-form-styles {
+  &__input-control {
+    margin-bottom: 20px;
+
+    &:has(.hint.hint--error):not(:has(app-budget-input)) {
+      margin-bottom: 40px;
+    }
+  }
+
+  &__input-group {
+    display: flex;
+    gap: 20px;
+
+    .form__input-control {
+      flex: 0 1 50%;
+    }
+  }
+
+  &__field-hint {
+    position: absolute;
+  }
+}
+
+@mixin multiline-truncate($lines) {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: $lines;
+  overflow: hidden;
+}
+
+@mixin heading($size, $height: typography.$line-height-md) {
+  font-size: $size;
+  line-height: $height;
+}
+
+@mixin li-item {
+  display: flex;
+  align-items: center;
+  gap: $li-gap;
+  min-height: $li-min-height;
+  width: 100%;
+  padding: $li-padding;
+  border-radius: $li-radius;
+  background: $li-bg-color;
+  border-bottom: 1px solid $li-border-color;
+  box-shadow: $shadow-li;
+  position: relative;
+
+  &:hover {
+    background-color: $li-bg-hover;
+  }
+
+  &:focus-visible {
+    border: 2px solid $li-border-focus;
+    outline: none;
+  }
+}
+
+@mixin flex-centered-column {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+@mixin custom-scrollbar {
+  &::-webkit-scrollbar {
+    width: $scroll-width;
+    background-color: $scroll-track;
+  }
+
+  &::-webkit-scrollbar-track {
+    background-color: $scroll-track;
+    border-radius: $scroll-radius;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: $scroll-color;
+    border-radius: $scroll-radius;
+    border: $scroll-padding solid $scroll-track;
+    min-height: 32px;
+  }
+
+  &::-webkit-scrollbar-button {
+    display: none;
+    width: 0;
+    height: 0;
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background-color: $scroll-hover;
+  }
+
+  &::-webkit-scrollbar-thumb:active {
+    background-color: $scroll-pressed;
+  }
+}
+
+@mixin modal-base-layout($modal-width: 1088px, $modal-content-padding: 40px) {
+  position: absolute;
+  max-height: 70vh;
+  width: $modal-width;
+  border: 1.6px solid $modal-border-color;
+  border-radius: 16px;
+  background-color: $modal-content-bg;
+  will-change: opacity;
+
+  &__wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 200;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+  }
+
+  &__overlay {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: $modal-overlay;
+    will-change: opacity;
+  }
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 auto;
+    gap: 48px;
+    padding: 0 $modal-content-padding $modal-content-padding;
+    background: $modal-content-bg;
+    width: 100%;
+    border-radius: 0px 0px 16px 16px;
+    min-height: 0;
+
+    &-container {
+      overflow: auto;
+      overscroll-behavior: contain;
+      scrollbar-gutter: stable;
+      @include custom-scrollbar;
+      flex: 1 1 auto;
+      padding: 3px;
+      margin: -3px;
+    }
+  }
+
+  &__button-close {
+    position: absolute;
+    top: 24px;
+    right: 24px;
+  }
+
+  &__actions {
+    text-align: right;
+  }
+}

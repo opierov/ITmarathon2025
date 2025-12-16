@@ -1,0 +1,51 @@
+name: ci angular
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'frontend/angular/**'
+  pull_request:   
+    branches:
+        - main
+    paths:
+      - 'frontend/angular/**'     
+      
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref_name }}
+  cancel-in-progress: true         
+   
+jobs:
+  test:
+    if: github.event_name == 'push' || github.event_name == 'pull_request'
+    name: Run Tests for Angular
+    uses: ./.github/workflows/test.yml
+    with:
+      microservice: angular
+    secrets: inherit
+  
+  check-infra:
+    uses: ./.github/workflows/check-infra.yml
+    secrets: inherit  
+  
+  build:
+    needs: [check-infra, test]
+    if: github.event_name == 'push' && needs.check-infra.outputs.infra-available == 'true'
+    name: Build Angular Docker Image
+    permissions:
+      contents: read
+      pull-requests: read
+    uses: ./.github/workflows/build-and-push.yml
+    with:
+      microservice: angular
+    secrets: inherit
+
+  deploy:
+    needs: [check-infra, build]
+    if: github.event_name == 'push' && needs.check-infra.outputs.infra-available == 'true'
+    uses: ./.github/workflows/deploy-jobs.yml
+    with:
+      microservice: angular
+      image_tag: latest
+    secrets: inherit  

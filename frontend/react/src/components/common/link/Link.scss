@@ -1,0 +1,55 @@
+@use "../../../assets/styles/colors";
+@use "../../../assets/styles/extends";
+
+.link {
+  text-decoration: underline;
+
+  &--small {
+    @extend %button-s;
+  }
+
+  &--large {
+    @extend %button-m;
+    text-underline-offset: 6px;
+  }
+
+  &--green {
+    color: colors.$green-500;
+
+    &:hover {
+      cursor: pointer;
+      color: colors.$green-400;
+    }
+
+    &:focus-visible {
+      border: 1px solid colors.$orange-500;
+      color: colors.$green-400;
+      border-radius: 2px;
+    }
+
+    &:active {
+      color: colors.$green-700;
+    }
+  }
+
+  &--white {
+    color: colors.$g-100;
+
+    &:hover {
+      cursor: pointer;
+      color: colors.$g-50;
+    }
+
+    &:focus-visible {
+      border: 1px solid colors.$orange-500;
+      color: colors.$g-50;
+      border-radius: 2px;
+    }
+  }
+
+  &--disabled {
+    color: colors.$g-600;
+    pointer-events: none;
+    cursor: default;
+  }
+}

@@ -1,0 +1,55 @@
+name: ci backend
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'backend/ApiService/**'
+  pull_request:   
+    branches:
+        - main
+    paths:
+      - 'backend/ApiService/**'  
+      
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref_name }}
+  cancel-in-progress: true        
+   
+jobs:
+  test:
+    if: github.event_name == 'push' || github.event_name == 'pull_request'
+    name: Run Tests for Backend
+    permissions:             
+      contents: read         
+      pull-requests: write  
+    uses: ./.github/workflows/test.yml
+    with:
+      microservice: dotnet
+    secrets: inherit
+
+  check-infra:
+    uses: ./.github/workflows/check-infra.yml  
+    secrets: inherit
+
+  build:
+    needs: [check-infra, test]
+    if: github.event_name == 'push' && needs.check-infra.outputs.infra-available == 'true'
+    name: Build Backend Docker Image
+    permissions:
+      contents: read
+      pull-requests: read
+    uses: ./.github/workflows/build-and-push.yml
+    with:
+      microservice: dotnet
+    secrets: inherit
+
+  deploy:
+    needs: [check-infra, build]
+    if: github.event_name == 'push' && needs.check-infra.outputs.infra-available == 'true'
+    uses: ./.github/workflows/deploy-jobs.yml
+    with:
+      microservice: dotnet
+      image_tag: latest
+    secrets: inherit  
+  

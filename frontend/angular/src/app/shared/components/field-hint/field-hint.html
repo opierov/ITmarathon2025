@@ -1,0 +1,8 @@
+<p
+  class="hint"
+  [class.hint--error]="errorMessage()"
+  [attr.role]="errorMessage() ? 'alert' : null"
+  [attr.aria-live]="errorMessage() ? 'assertive' : 'polite'"
+>
+  {{ hintMessage() }}
+</p>
